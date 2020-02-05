@@ -1,16 +1,54 @@
 import React, { Component } from 'react';
 import './App.css';
+import 'antd/dist/antd.css';
+
+import { Radio, Input } from 'antd';
+
+const radioStyle = {
+  display: 'block',
+  height: '30px',
+  lineHeight: '30px',
+};
 
 class App extends Component {
-  state = { selectedOption: 'option1' };
+  state = {
+    selectedOption: 'option1',
+    pageToRender: 'option1',
+    value: 1,
+  };
 
   handleChange = (option) => {
-    this.setState({ selectedOption: option })
-  }
+    this.setState({
+      selectedOption: option,
+      pageToRender: option,
+    });
+  };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    alert('A name was submitted: ' + this.state.selectedOption);
+  renderContentDetails = () => {
+    const { pageToRender } = this.state;
+
+    switch(pageToRender) {
+      case 'option2':
+        return (
+          <div>
+            <p>Blah.. .. . ..</p>
+            <p>danskljdnas  adsaa</p>
+            <p>asdsadass</p>
+          </div>
+        );
+      case 'option3':
+        return (
+          <div>Hello there 3</div>
+        );;
+      case 'option4':
+          return (
+          <div>Hello there 4</div>
+        );;
+      default:
+        return (
+          <div>Hello there</div>
+        );;
+    }
   }
 
   render() {
@@ -19,15 +57,12 @@ class App extends Component {
         <form>
         <h4>Please describe the issue you wish to report</h4>
           <input
-            id="choice1"
             name="input"
             type="radio"
             onChange={() => this.handleChange('option1')}
             checked={this.state.selectedOption === 'option1'}
           />
-          <label htmlFor="choice1">
-            I am experiencing a privacy issue with my account
-          </label><br />
+          I am experiencing a privacy issue with my account<br />
           <input
             id="choice2"
             name="input"
@@ -58,12 +93,28 @@ class App extends Component {
           <label htmlFor="choice4">
             I have a suggestion to improve an existing feature
           </label><br />
-          <br />
-          <button type="submit" onClick={this.handleSubmit}>Submit</button>
         </form>
+        {this.renderContentDetails()}
+        <div>
+          <Radio.Group onChange={this.onChange} value={this.state.value}>
+            <Radio style={radioStyle} value={1}>
+              Option A
+            </Radio>
+            <Radio style={radioStyle} value={2}>
+              Option B
+            </Radio>
+            <Radio style={radioStyle} value={3}>
+              Option C
+            </Radio>
+            <Radio style={radioStyle} value={4}>
+              More...
+              {this.state.value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+            </Radio>
+          </Radio.Group>
+        </div>
       </div>
     );
   }
-}
+};
 
 export default App;
